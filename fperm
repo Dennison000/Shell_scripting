@@ -1,0 +1,27 @@
+#!/bin/bash
+
+read -p "Enter the username :" name1
+    if [ $name1 == "Denni" ] || [ $name1 == "ash" ]     #The username are specified in double qotes ("") has access to give permission.
+    then
+        echo Hi $name1 .Please Enter the Password
+        read -sp "Password : " passwd
+
+        if [ $passwd == "God" ]
+        then
+            read -p "`echo $'\n '` Enter the file name to get permission: " fname
+            chmod a+rwx $fname
+            echo *------------------------------------------------------*
+            ls -ltr | grep -i $fname | awk {'print $1,$9'}
+            echo *------------------------------------------------------*
+            echo "Permission Granted"
+            echo *------------------------------------------------------*
+        else
+            echo *------------------------------------------------------*
+            echo "Permission Denined"
+            echo *------------------------------------------------------*
+        fi
+    else
+        echo *------------------------------------------------------*
+        echo "ENTER THE VALID USERNAME"
+        echo *------------------------------------------------------*
+    fi

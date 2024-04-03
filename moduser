@@ -1,0 +1,82 @@
+#!/bin/bash
+
+read -p "Enter the username : " uname
+
+if [ $uname == "ITTEAM" ]
+then
+    echo
+    read -sp "Enter the password :" pawd
+        if [ $pawd == "itd@2024" ]
+        then
+            echo "Login Successful"
+            echo *---------------------------------------------------*
+                name1="AddingUser"
+                ytype1="1"
+
+                name2="DeletingUser"
+                ytype2="2"
+
+                name3="AddingGroup"
+                ytype3="3"
+
+                name4="DeletingGroup"
+                ytype4="4"
+
+                name5="Installssh"
+                ytype5="5"
+
+                # Print table header
+                printf "%-15s %-15s\n" "Operation-Type" "opsNo"
+                echo "-----------------------------------"
+
+                # Print data rows
+                printf "%-15s %-15s\n" "$name1" "$ytype1"
+                printf "%-15s %-15s\n" "$name2" "$ytype2"
+                printf "%-15s %-15s\n" "$name3" "$ytype3"
+                printf "%-15s %-15s\n" "$name4" "$ytype4"
+                printf "%-15s %-15s\n" "$name5" "$ytype5"
+
+                read -p "Enter the opsNO to proceed :" pcmd
+                case $pcmd in
+                    "1")
+                        echo "you chose useradd :"
+                        read -p "enter the user name to add :" aname1
+                        sudo useradd $aname1
+                        id $aname1
+                        passwd $aname1
+                        ;;
+                    "2")
+                        echo "you chose userdel :"
+                        read -p "enter the user name to del :" aname2
+                        sudo userdel $aname2 
+                        id $aname2
+                        ;;
+                    "3")
+                        echo "you chose group add :" aname3
+                        read -p "enter the group name to add :" $aname3
+                        sudo groupadd $aname3
+                        ;;
+                    "4")
+                        echo "you chose group del :" aname4
+                        read -p "enter the group to delete :" $aname4
+                        sudo groupdel $aname4
+                        ;;
+                    "5")
+                        echo "you chose install ssh :"
+                        sudo dnf -y install openssh-server openssh-clients
+                        sudo systemctl start sshd
+                        sudo systemctl enable sshd
+                        sudo systemctl status sshd
+                        ;;
+                    *)
+                        echo "UNKNOWN OPSNO"
+                        ;;
+                esac
+                echo "sudo access will be removed"
+                gpasswd --delete $whoami wheel
+        else
+            echo "Invalid password"
+        fi
+    else
+        echo "Invalid Username"
+fi
